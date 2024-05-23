@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const postSchema = mongoose.Schema(
   {
@@ -7,10 +7,8 @@ const postSchema = mongoose.Schema(
     likes: [],
     image: String,
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
-var PostModel = mongoose.model("Posts", postSchema);
-export default PostModel;
+const PostModel = mongoose.model("Posts", postSchema);
+module.exports = PostModel;
