@@ -15,9 +15,9 @@ export default function SignIn() {
   };
 
   const { error, errorMessage, loading } = useSelector((state) => ({
-    error: state.authReducer.error,
-    errorMessage: state.authReducer.errorMessage,
-    loading: state.authReducer.loading,
+    error: state.auth.error,
+    errorMessage: state.auth.errorMessage,
+    loading: state.auth.loading,
   }));
   const navigate = useNavigate();
   const dispatch = useDispatch();

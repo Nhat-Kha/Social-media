@@ -4,7 +4,7 @@ import { logout } from "../../redux/actions/AuthAction";
 
 export default function Navbar() {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.authReducer.authData);
+  const user = useSelector((state) => state.auth.authData);
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 

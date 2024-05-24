@@ -1,18 +1,76 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { uploadImage, uploadPost } from "../../redux/actions/UploadAction";
 
 export default function CreatePost() {
+  const dispatch = useDispatch();
+  const { user, loading } = useSelector((state) => ({
+    user: state.auth.authData,
+    loading: state.post.uploading,
+  }));
+  console.log("user: ", user.user);
+
+  const serverPublic = process.env.REACT_APP_PUBLIC_FOLDER;
+
+  const desc = useRef();
+  const imageRef = useRef();
+
+  const [image, setImage] = useState(null);
   const [textSearch, setTextSearch] = useState("");
+
   const handleSearchText = (e) => {
     setTextSearch(e.target.value);
   };
+
+  const onImageChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      let img = event.target.files[0];
+      setImage(img);
+    }
+  };
+
+  const handleUpload = async (e) => {
+    e.preventDefault();
+
+    //post data
+    const newPost = {
+      userId: user.user._id,
+      desc: desc.current.value,
+    };
+
+    // if there is an image with post
+    if (image) {
+      const data = new FormData();
+      const fileName = Date.now() + image.name;
+      data.append("name", fileName);
+      data.append("file", image);
+      newPost.image = fileName;
+      console.log(newPost);
+      try {
+        dispatch(uploadImage(data));
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    dispatch(uploadPost(newPost));
+    resetShare();
+  };
+
+  const resetShare = () => {
+    setImage(null);
+    desc.current.value = "";
+  };
+
   return (
     <>
       <form class="bg-white shadow rounded-lg mb-6 p-4">
         <textarea
+          required
           name="message"
           placeholder="Type something..."
           value={textSearch}
           onChange={handleSearchText}
+          ref={desc}
           class="w-full rounded-lg p-2 text-sm bg-gray-100 border border-transparent appearance-none rounded-tg placeholder-gray-400"
         ></textarea>
         <footer class="flex justify-between mt-2">
@@ -70,9 +128,11 @@ export default function CreatePost() {
           {textSearch === "" ? (
             <button
               class="flex items-center py-2 px-4 rounded-lg text-sm bg-blue-300 text-slate-100 hover:bg-blue-500 
-          hover:text-white shadow-lg transition duration-300"
+            hover:text-white shadow-lg transition duration-300"
+              onClick={handleUpload}
+              disabled={loading}
             >
-              Send
+              {loading ? "uploading" : "Send"}
               <svg
                 class="ml-1"
                 viewBox="0 0 24 24"
@@ -89,8 +149,13 @@ export default function CreatePost() {
               </svg>
             </button>
           ) : (
-            <button class="flex items-center py-2 px-4 rounded-lg text-sm bg-blue-500 text-white shadow-lg transition duration-300">
-              Send
+            <button
+              class="flex items-center py-2 px-4 rounded-lg text-sm bg-blue-500 
+              text-white shadow-lg transition duration-300"
+              onClick={handleUpload}
+              disabled={loading}
+            >
+              {loading ? "uploading" : "Send"}
               <svg
                 class="ml-1"
                 viewBox="0 0 24 24"
