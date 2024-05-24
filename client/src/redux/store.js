@@ -3,8 +3,11 @@ import {
   applyMiddleware,
   compose,
 } from "redux";
+import { configureStore } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
 import { reducers } from "./Reducers";
+import AuthReducer from "./Reducers/AuthReducer";
+import PostReducer from "./Reducers/PostReducer";
 
 const saveToLocalStorage = (store) => {
   try {
@@ -26,14 +29,17 @@ const loadFromLocalStorage = () => {
   }
 };
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const persistedState = loadFromLocalStorage();
 
-const store = createStore(
-  reducers,
-  persistedState,
-  composeEnhancers(applyMiddleware(thunk))
-);
+const store = configureStore({
+  reducer: {
+    auth: AuthReducer,
+    post: PostReducer,
+  },
+  preloadedState: persistedState,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware(applyMiddleware(thunk)),
+});
 
 store.subscribe(() => saveToLocalStorage(store.getState()));
 
