@@ -7,14 +7,14 @@ import Loading from "./components/container/LoadingPage";
 import { useEffect, useState } from "react";
 
 export default function App() {
-  const user = useSelector((state) => state.authReducer.authData);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    setTimeout(() => setLoading(false), 4000);
-  }, []);
-  if (loading) {
-    return <Loading />;
-  }
+  const user = useSelector((state) => state.auth.authData);
+  // const [loading, setLoading] = useState(true);
+  // useEffect(() => {
+  //   setTimeout(() => setLoading(false), 4000);
+  // }, []);
+  // if (loading) {
+  //   return <Loading />;
+  // }
   return (
     <div
       className="App bg-gray-100 pt-20"
