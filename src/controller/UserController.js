@@ -42,9 +42,13 @@ const updateUser = async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         req.body.password = await bcrypt.hash(password, salt);
       }
+
       const user = await UserModel.findByIdAndUpdate(id, req.body, {
         new: true,
       });
+
+      console.log("request body:", req.body);
+      console.log("user:", user);
       const token = jwt.sign(
         { username: user.username, id: user._id },
         process.env.JWTKEY,
