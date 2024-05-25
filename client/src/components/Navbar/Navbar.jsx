@@ -16,6 +16,8 @@ export default function Navbar() {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  console.log("user id:", user);
+
   return (
     <>
       <nav className="bg-white w-full flex shadow justify-between items-center px-8 h-20 fixed top-0 left-0 z-50">
@@ -136,7 +138,7 @@ export default function Navbar() {
                   {isDropdownOpen && (
                     <div className="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg z-50">
                       <a
-                        href="/profile"
+                        href={`/profile/${user.user._id}`}
                         className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
                       >
                         Profile

@@ -4,11 +4,8 @@ import { uploadImage, uploadPost } from "../../redux/actions/UploadAction";
 
 export default function CreatePost() {
   const dispatch = useDispatch();
-  const { user, loading } = useSelector((state) => ({
-    user: state.auth.authData,
-    loading: state.post.uploading,
-  }));
-  console.log("user: ", user.user);
+  const { user } = useSelector((state) => state.auth.authData);
+  const { loading } = useSelector((state) => state.post.loading);
 
   const serverPublic = process.env.REACT_APP_PUBLIC_FOLDER;
 
@@ -17,10 +14,6 @@ export default function CreatePost() {
 
   const [image, setImage] = useState(null);
   const [textSearch, setTextSearch] = useState("");
-
-  const handleSearchText = (e) => {
-    setTextSearch(e.target.value);
-  };
 
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -34,7 +27,7 @@ export default function CreatePost() {
 
     //post data
     const newPost = {
-      userId: user.user._id,
+      userId: user._id,
       desc: desc.current.value,
     };
 
@@ -52,6 +45,7 @@ export default function CreatePost() {
         console.log(err);
       }
     }
+
     dispatch(uploadPost(newPost));
     resetShare();
   };
@@ -64,15 +58,13 @@ export default function CreatePost() {
   return (
     <>
       <form class="bg-white shadow rounded-lg mb-6 p-4">
-        <textarea
+        <input
           required
           name="message"
           placeholder="Type something..."
-          value={textSearch}
-          onChange={handleSearchText}
           ref={desc}
           class="w-full rounded-lg p-2 text-sm bg-gray-100 border border-transparent appearance-none rounded-tg placeholder-gray-400"
-        ></textarea>
+        />
         <footer class="flex justify-between mt-2">
           <div class="flex gap-2">
             <span class="flex items-center transition ease-out duration-300 hover:bg-blue-500 hover:text-white bg-blue-100 w-8 h-8 px-2 rounded-full text-blue-400 cursor-pointer">
