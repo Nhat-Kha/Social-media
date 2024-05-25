@@ -6,7 +6,7 @@ import {
 import * as PostsApi from "../../api/PostsRequests";
 
 export const getTimelinePosts = (id) => async (dispatch) => {
-  dispatch(retreivingStart());
+  await dispatch(retreivingStart());
   try {
     const { data } = await PostsApi.getTimelinePosts(id);
     dispatch(retreivingSuccess(data));
