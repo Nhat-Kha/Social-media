@@ -6,7 +6,9 @@ const apiList = {
   getUser: `${server}/user/`,
   uploadImg: `${server}/upload/`,
   uploadPost: `${server}/posts`,
-  
+
+  updateUserId: `${server}/user/`,
+
   getPost: `${server}/posts`,
   likePost: `${server}/posts/`,
 };
