@@ -40,12 +40,15 @@ const postReducer = createSlice({
       state.uploading = true;
     },
     uploadSuccess: (state, action) => {
-      console.log("Success 1: ", { state, action });
-      state.posts = action.payload;
+      const { newPost } = action.payload;
+      // let newPost = [action.payload, ...state.posts];
+
+      state.posts = [newPost, ...state.posts];
+      // state.posts = newPost;
       state.uploading = false;
       state.error = false;
     },
-    uploadFail: (state, action) => {
+    uploadFail: (state) => {
       state.uploading = false;
       state.error = true;
     },
@@ -54,7 +57,6 @@ const postReducer = createSlice({
       state.error = false;
     },
     retreivingSuccess: (state, action) => {
-      console.log("Success 2: ", { state, action });
       state.posts = action.payload;
       state.loading = false;
       state.error = false;
