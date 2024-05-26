@@ -12,6 +12,7 @@ const PostRoute = require("./routes/post.js");
 const UploadRoute = require("./routes/upload.js");
 const ChatRoute = require("./routes/chat.js");
 const MessageRoute = require("./routes/message.js");
+const CommentRoute = require("./routes/comment.js");
 
 dotenv.config();
 
@@ -42,3 +43,4 @@ app.use("/posts", PostRoute);
 app.use("/upload", UploadRoute);
 app.use("/chat", ChatRoute);
 app.use("/message", MessageRoute);
+app.use("/comment", CommentRoute);

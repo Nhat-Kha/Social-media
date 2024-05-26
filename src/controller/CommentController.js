@@ -3,7 +3,11 @@ const Comment = require("../model/comment.js");
 const createComment = async (req, res, next) => {
   try {
     const { content, postId, userId } = req.body;
-    console.log(req.body);
+    console.log(req.body.content);
+    console.log(req.body.postId);
+    console.log(req.body.userId);
+
+    console.log("user:", req.user.id);
     if (userId !== req.user.id) {
       return res.status(403).json("You are not allowed to create this comment");
     }
@@ -17,6 +21,7 @@ const createComment = async (req, res, next) => {
 
     res.status(200).json(newComment);
   } catch (error) {
+    console.error("Error creating comment:", error);
     res.status(500).json(error);
   }
 };
