@@ -11,6 +11,11 @@ const apiList = {
 
   getPost: `${server}/posts`,
   likePost: `${server}/posts/`,
+
+  // COMMENT
+  create: `${server}/comment/create`,
+  getPostComment: `${server}/comment/getPostComments/`,
+  likeComment: `${server}/comment/likeComment/`,
 };
 
 export default apiList;
