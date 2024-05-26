@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 import { getTimelinePosts } from "../../redux/actions/PostAction";
 import Post from "./Post/Post";
 
@@ -8,7 +7,6 @@ export default function PostSide() {
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.auth.authData);
-  // let { posts, loading } = useSelector((state) => state.post);
   const { posts, loading } = useSelector((state) => ({
     posts: state.post.posts,
     loading: state.post.loading,
@@ -22,6 +20,8 @@ export default function PostSide() {
 
   // if (id) posts = posts.filter((post) => post.userId === id);
   // const newPost = users.filter((user) => user._id === posts._id);
+
+  // console.log("post:", posts);
 
   return (
     <>

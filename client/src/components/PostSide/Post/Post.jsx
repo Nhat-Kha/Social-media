@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { likePost } from "../../../api/PostsRequests";
 import apiList from "../../../api/apiList";
+import CommentSection from "../../Comment/CommentSection";
 
 export default function Post({ data }) {
   const { user } = useSelector((state) => state.auth.authData);
@@ -108,28 +109,7 @@ export default function Post({ data }) {
                     alt=""
                   />
                 </div>
-                <div className=" overflow-hidden rounded-xl col-span-3 max-h-[14rem]">
-                  <img
-                    className="h-full w-full object-cover  "
-                    src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1399&amp;q=80"
-                    alt=""
-                  />
-                </div>
-                <div className=" overflow-hidden rounded-xl col-span-2 max-h-[10rem]">
-                  <img
-                    className="h-full w-full object-cover "
-                    src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1470&amp;q=80"
-                    alt=""
-                  />
-                </div>
-                <div className=" overflow-hidden rounded-xl col-span-2 max-h-[10rem]">
-                  <img
-                    className="h-full w-full object-cover "
-                    src="https://images.unsplash.com/photo-1503602642458-232111445657?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=687&amp;q=80"
-                    alt=""
-                  />
-                </div>
-                <div className="relative overflow-hidden rounded-xl col-span-2 max-h-[10rem]">
+                {/* <div className="relative overflow-hidden rounded-xl col-span-2 max-h-[10rem]">
                   <div className="text-white text-xl absolute inset-0  bg-slate-900/80 flex justify-center items-center">
                     + 23
                   </div>
@@ -137,8 +117,8 @@ export default function Post({ data }) {
                     className="h-full w-full object-cover "
                     src="https://images.unsplash.com/photo-1560393464-5c69a73c5770?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=765&amp;q=80"
                     alt=""
-                  />
-                </div>
+                  />  
+                </div> */}
               </div>
             </div>
 
@@ -226,171 +206,8 @@ export default function Post({ data }) {
             </div>
           </div>
         </div>
-        <div className="text-black p-4 antialiased flex">
-          <img
-            alt=""
-            className="rounded-full h-8 w-8 mr-2 mt-1 "
-            src="https://picsum.photos/id/1027/200/200"
-          />
-          <div>
-            <div className="bg-gray-100 rounded-lg px-4 pt-2 pb-2.5">
-              <div className="font-semibold text-sm leading-relaxed">
-                Sara Lauren
-              </div>
-              <div className="text-xs leading-snug md:leading-normal">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
-              </div>
-            </div>
-            <div className="text-xs  mt-0.5 text-gray-500">14 w</div>
-            <div className="bg-white border border-white rounded-full float-right -mt-8 mr-0.5 flex shadow items-center ">
-              <svg
-                className="p-0.5 h-5 w-5 rounded-full z-20 bg-white"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 16 16"
-              >
-                <defs>
-                  <linearGradient id="a1" x1="50%" x2="50%" y1="0%" y2="100%">
-                    <stop offset="0%" stop-color="#18AFFF"></stop>
-                    <stop offset="100%" stop-color="#0062DF"></stop>
-                  </linearGradient>
-                  <filter
-                    id="c1"
-                    width="118.8%"
-                    height="118.8%"
-                    x="-9.4%"
-                    y="-9.4%"
-                    filterUnits="objectBoundingBox"
-                  >
-                    <feGaussianBlur
-                      in="SourceAlpha"
-                      result="shadowBlurInner1"
-                      stdDeviation="1"
-                    ></feGaussianBlur>
-                    <feOffset
-                      dy="-1"
-                      in="shadowBlurInner1"
-                      result="shadowOffsetInner1"
-                    ></feOffset>
-                    <feComposite
-                      in="shadowOffsetInner1"
-                      in2="SourceAlpha"
-                      k2="-1"
-                      k3="1"
-                      operator="arithmetic"
-                      result="shadowInnerInner1"
-                    ></feComposite>
-                    <feColorMatrix
-                      in="shadowInnerInner1"
-                      values="0 0 0 0 0 0 0 0 0 0.299356041 0 0 0 0 0.681187726 0 0 0 0.3495684 0"
-                    ></feColorMatrix>
-                  </filter>
-                  <path
-                    id="b1"
-                    d="M8 0a8 8 0 00-8 8 8 8 0 1016 0 8 8 0 00-8-8z"
-                  ></path>
-                </defs>
-                <g fill="none">
-                  <use fill="url(#a1)"></use>
-                  <use fill="black" filter="url(#c1)"></use>
-                  <path
-                    fill="white"
-                    d="M12.162 7.338c.176.123.338.245.338.674 0 .43-.229.604-.474.725a.73.73 0 01.089.546c-.077.344-.392.611-.672.69.121.194.159.385.015.62-.185.295-.346.407-1.058.407H7.5c-.988 0-1.5-.546-1.5-1V7.665c0-1.23 1.467-2.275 1.467-3.13L7.361 3.47c-.005-.065.008-.224.058-.27.08-.079.301-.2.635-.2.218 0 .363.041.534.123.581.277.732.978.732 1.542 0 .271-.414 1.083-.47 1.364 0 0 .867-.192 1.879-.199 1.061-.006 1.749.19 1.749.842 0 .261-.219.523-.316.666zM3.6 7h.8a.6.6 0 01.6.6v3.8a.6.6 0 01-.6.6h-.8a.6.6 0 01-.6-.6V7.6a.6.6 0 01.6-.6z"
-                  ></path>
-                </g>
-              </svg>
-              <svg
-                className="p-0.5 h-5 w-5 rounded-full -ml-1.5 bg-white"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 16 16"
-              >
-                <defs>
-                  <linearGradient id="a2" x1="50%" x2="50%" y1="0%" y2="100%">
-                    <stop offset="0%" stop-color="#FF6680"></stop>
-                    <stop offset="100%" stop-color="#E61739"></stop>
-                  </linearGradient>
-                  <filter
-                    id="c2"
-                    width="118.8%"
-                    height="118.8%"
-                    x="-9.4%"
-                    y="-9.4%"
-                    filterUnits="objectBoundingBox"
-                  >
-                    <feGaussianBlur
-                      in="SourceAlpha"
-                      result="shadowBlurInner1"
-                      stdDeviation="1"
-                    ></feGaussianBlur>
-                    <feOffset
-                      dy="-1"
-                      in="shadowBlurInner1"
-                      result="shadowOffsetInner1"
-                    ></feOffset>
-                    <feComposite
-                      in="shadowOffsetInner1"
-                      in2="SourceAlpha"
-                      k2="-1"
-                      k3="1"
-                      operator="arithmetic"
-                      result="shadowInnerInner1"
-                    ></feComposite>
-                    <feColorMatrix
-                      in="shadowInnerInner1"
-                      values="0 0 0 0 0.710144928 0 0 0 0 0 0 0 0 0 0.117780134 0 0 0 0.349786932 0"
-                    ></feColorMatrix>
-                  </filter>
-                  <path id="b2" d="M8 0a8 8 0 100 16A8 8 0 008 0z"></path>
-                </defs>
-                <g fill="none">
-                  <use fill="url(#a2)"></use>
-                  <use fill="black" filter="url(#c2)"></use>
-                  <path
-                    fill="white"
-                    d="M10.473 4C8.275 4 8 5.824 8 5.824S7.726 4 5.528 4c-2.114 0-2.73 2.222-2.472 3.41C3.736 10.55 8 12.75 8 12.75s4.265-2.2 4.945-5.34c.257-1.188-.36-3.41-2.472-3.41"
-                  ></path>
-                </g>
-              </svg>
-              <span className="text-sm ml-1 pr-1.5 text-gray-500">3</span>
-            </div>
-          </div>
-        </div>
-        <div className="relative flex items-center self-center w-full max-w-xl p-4 overflow-hidden text-gray-600 focus-within:text-gray-400">
-          <img
-            className="w-10 h-10 object-cover rounded-full shadow mr-2 cursor-pointer"
-            alt="User avatar"
-            src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80"
-          />
-          <span className="absolute inset-y-0 right-0 flex items-center pr-6">
-            <button
-              type="submit"
-              className="p-1 focus:outline-none focus:shadow-none hover:text-blue-500"
-            >
-              <svg
-                className="w-6 h-6 transition ease-out duration-300 hover:text-blue-500 text-gray-400"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                ></path>
-              </svg>
-            </button>
-          </span>
-          <input
-            type="search"
-            className="w-full rounded-[25px] py-2 pl-4 pr-10 text-sm bg-gray-100 border border-transparent appearance-none rounded-tg placeholder-gray-400"
-            placeholder="Post a comment..."
-            autocomplete="off"
-          />
-        </div>
+
+        <CommentSection postId={data._id} />
       </div>
     )
   );
