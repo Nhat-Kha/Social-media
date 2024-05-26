@@ -1,10 +1,20 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getTimelinePosts } from "../../redux/actions/PostAction";
 
 export default function ProfileCard() {
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth.authData);
+  const { posts } = useSelector((state) => ({
+    posts: state.post.posts,
+  }));
 
-  console.log("user", user);
+  useEffect(() => {
+    dispatch(getTimelinePosts(user._id));
+  }, [dispatch, user]);
+
+  if (!posts || posts.length === 0) return "No Posts";
+  const newPost = posts.filter((post) => post.userId === user._id);
 
   return (
     <div className="bg-white shadow rounded-lg p-6">
@@ -34,12 +44,12 @@ export default function ProfileCard() {
             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
             <circle cx="12" cy="10" r="3"></circle>
           </svg>
-          {user.livesin}, California
+          {user.livesin}, {user.country}
         </div>
       </div>
       <div className="flex justify-center items-center gap-2 my-3">
         <div className="font-semibold text-center mx-4">
-          <p className="text-black">102</p>
+          <p className="text-black">{newPost.length}</p>
           <span className="text-gray-400">Posts</span>
         </div>
         <div className="font-semibold text-center mx-4">

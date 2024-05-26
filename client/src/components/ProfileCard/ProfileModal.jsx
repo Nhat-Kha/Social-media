@@ -74,7 +74,10 @@ export default function ProfileModal({ modalOpened, setModalOpened, data }) {
       onClose={() => setModalOpened(false)}
     >
       <form className="infoForm" onSubmit={handleSubmit}>
-        <h3>Your Info</h3>
+        <h3>
+          Your Info{" "}
+          <span className="font-semibold uppercase">{user.username}</span>
+        </h3>
         <div>
           <input
             value={formData.firstname}
