@@ -19,6 +19,9 @@ export default function SignIn() {
     errorMessage: state.auth.errorMessage,
     loading: state.auth.loading,
   }));
+
+  console.log({ loading });
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isSignUp, setIsSignUp] = useState(false);
