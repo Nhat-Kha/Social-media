@@ -4,9 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { uploadImage } from "../../redux/actions/UploadAction";
 import { updateUser } from "../../redux/actions/UserAction";
+import { apiUploadImages } from "../../api/UploadImage";
 
 export default function ProfileModal({ modalOpened, setModalOpened, data }) {
   const { password, ...other } = data;
+
   const [formData, setFormData] = useState(other);
   const [profileImage, setProfileImage] = useState(null);
   const [coverImage, setCoverImage] = useState(null);
@@ -29,17 +31,25 @@ export default function ProfileModal({ modalOpened, setModalOpened, data }) {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let UserData = formData;
     if (profileImage) {
+      let images = "";
       const data = new FormData();
       const fileName = Date.now() + profileImage.name;
+
       data.append("name", fileName);
       data.append("file", profileImage);
-      UserData.profilePicture = fileName;
+      data.append("upload_preset", "social");
+      data.append("folder", "social-media");
+
+      let response = await apiUploadImages(data);
+      if (response.status === 200) images = response.data?.secure_url;
+      UserData.profilePicture = images;
+
       try {
-        dispatch(uploadImage(data));
+        dispatch(uploadImage(images));
       } catch (err) {
         console.log(err);
       }
@@ -56,6 +66,7 @@ export default function ProfileModal({ modalOpened, setModalOpened, data }) {
         console.log(err);
       }
     }
+    // console.log(profileImage);
     dispatch(updateUser(param.id, UserData));
     setModalOpened(false);
   };
@@ -73,7 +84,7 @@ export default function ProfileModal({ modalOpened, setModalOpened, data }) {
       opened={modalOpened}
       onClose={() => setModalOpened(false)}
     >
-      <form className="infoForm" onSubmit={handleSubmit}>
+      <form className="" onSubmit={handleSubmit}>
         <h3>
           Your Info{" "}
           <span className="font-semibold uppercase">{user.username}</span>
@@ -145,7 +156,12 @@ export default function ProfileModal({ modalOpened, setModalOpened, data }) {
           <input type="file" name="coverImage" onChange={onImageChange} />
         </div>
 
-        <button className="button infoButton" type="submit">
+        <button
+          className="middle none center mr-4 rounded-lg bg-blue-500 py-3 px-6 font-sans text-xs font-bold uppercase 
+          text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] 
+          focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          type="submit"
+        >
           Update
         </button>
       </form>

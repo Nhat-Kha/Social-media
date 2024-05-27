@@ -29,8 +29,6 @@ export default function ProfileCardSetting() {
     fetchProfileUser();
   }, [profileUserId, user]);
 
-  console.log({ user });
-
   return (
     <div className="bg-white shadow rounded-lg p-6">
       <div className="flex flex-col gap-1 text-center items-center">
@@ -41,7 +39,7 @@ export default function ProfileCardSetting() {
             <button
               data-modal-target="default-modal"
               data-modal-toggle="default-modal"
-              class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               type="button"
               onClick={() => setModalOpened(true)}
             >
