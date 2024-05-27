@@ -1,37 +1,37 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getTimelinePosts } from "../../redux/actions/PostAction";
 import Post from "./Post/Post";
+import Skeleten from "../Skeleten/Skeleten";
 
 export default function PostSide() {
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.auth.authData);
-  const { posts, loading } = useSelector((state) => ({
-    posts: state.post.posts,
+  const { post, loading } = useSelector((state) => ({
+    post: state.post.posts,
     loading: state.post.loading,
   }));
+
+  // const [load, setLoading] = useState(loading);
+
+  // useEffect(() => {
+  //   setTimeout(() => setLoading(true), 2000);
+  // }, []);
 
   useEffect(() => {
     dispatch(getTimelinePosts(user._id));
   }, [dispatch, user]);
 
-  if (!posts || posts.length === 0) return "No Posts";
+  if (!post || post.length === 0) return "No Posts";
 
-  // if (id) posts = posts.filter((post) => post.userId === id);
-  // const newPost = users.filter((user) => user._id === posts._id);
-
-  // console.log("post:", posts);
-
-  return (
-    <>
-      {loading
-        ? "Fetching posts...."
-        : posts &&
-          posts.map &&
-          posts.map((post) => {
-            return <Post data={post} key={post._id} />;
-          })}
-    </>
+  return loading ? (
+    <Skeleten />
+  ) : (
+    post &&
+      post.map &&
+      post.map((post) => {
+        return <Post data={post} key={post._id} />;
+      })
   );
 }

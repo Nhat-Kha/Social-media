@@ -102,7 +102,7 @@ export default function Navbar() {
                 <div className="inline relative">
                   <button
                     type="button"
-                    className="inline-flex items-center relative px-2 border rounded-full hover:shadow-lg"
+                    className="inline-flex items-center relative pl-2 border rounded-full hover:shadow-lg"
                     onClick={toggleDropdown}
                   >
                     <div className="pl-1">
@@ -122,42 +122,45 @@ export default function Navbar() {
                       </svg>
                     </div>
 
-                    <div className="block flex-grow-0 flex-shrink-0 h-10 w-12 pl-5">
-                      <svg
-                        viewBox="0 0 32 32"
-                        xmlns="http://www.w3.org/2000/svg"
-                        aria-hidden="true"
-                        role="presentation"
-                        focusable="false"
-                        className="block h-full w-full fill-current"
-                      >
-                        <path d="m16 .7c-8.437 0-15.3 6.863-15.3 15.3s6.863 15.3 15.3 15.3 15.3-6.863 15.3-15.3-6.863-15.3-15.3-15.3zm0 28c-4.021 0-7.605-1.884-9.933-4.81a12.425 12.425 0 0 1 6.451-4.4 6.507 6.507 0 0 1 -3.018-5.49c0-3.584 2.916-6.5 6.5-6.5s6.5 2.916 6.5 6.5a6.513 6.513 0 0 1 -3.019 5.491 12.42 12.42 0 0 1 6.452 4.4c-2.328 2.925-5.912 4.809-9.933 4.809z"></path>
-                      </svg>
+                    <div className="block flex-grow-0 flex-shrink-0 h-10 w-[3.7rem] pl-5">
+                      <img
+                        className="rounded-full block h-full w-full object-cover"
+                        src={
+                          !user.user.profilePicture
+                            ? "data:image/svg+xml,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg' aria-hidden='true' role='presentation' focusable='false' className='block h-full w-full fill-current'%3E%3Cpath d='m16 .7c-8.437 0-15.3 6.863-15.3 15.3s6.863 15.3 15.3 15.3 15.3-6.863 15.3-15.3-6.863-15.3-15.3-15.3zm0 28c-4.021 0-7.605-1.884-9.933-4.81a12.425 12.425 0 0 1 6.451-4.4 6.507 6.507 0 0 1 -3.018-5.49c0-3.584 2.916-6.5 6.5-6.5s6.5 2.916 6.5 6.5a6.513 6.513 0 0 1 -3.019 5.491 12.42 12.42 0 0 1 6.452 4.4c-2.328 2.925-5.912 4.809-9.933 4.809z'/%3E%3C/svg%3E"
+                            : user.user.profilePicture
+                        }
+                        alt=""
+                      />
                     </div>
                   </button>
-                  {isDropdownOpen && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg z-50">
-                      <a
-                        href={`/profile/${user.user._id}`}
-                        className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
-                      >
-                        Profile
-                      </a>
-                      <a
-                        href="/settings"
-                        className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
-                      >
-                        Settings
-                      </a>
-                      <a
-                        href="#!"
-                        onClick={handleLogOut}
-                        className="block px-4 py-2 text-gray-800 hover:bg-gray-200 hover:cursor-pointer"
-                      >
-                        Logout
-                      </a>
-                    </div>
-                  )}
+                  <div
+                    className={`${
+                      isDropdownOpen
+                        ? "max-h-40 opacity-100"
+                        : "max-h-0 opacity-0"
+                    } absolute right-0 mt-2 w-28 bg-white border rounded shadow-lg z-50 transition-all duration-300 ease-in-out overflow-hidden`}
+                  >
+                    <a
+                      href={`/profile/${user.user._id}`}
+                      className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+                    >
+                      Profile
+                    </a>
+                    <a
+                      href="/settings"
+                      className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+                    >
+                      Settings
+                    </a>
+                    <a
+                      href="#!"
+                      onClick={handleLogOut}
+                      className="block px-4 py-2 text-gray-800 hover:bg-gray-200 hover:cursor-pointer"
+                    >
+                      Logout
+                    </a>
+                  </div>
                 </div>
               </div>
             ) : (

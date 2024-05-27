@@ -7,7 +7,7 @@ import RightSide from "../RightSide/RightSide";
 
 export default function ProfileSide() {
   return (
-    <main className="grid grid-cols-12 gap-6 my-4 w-full">
+    <main className="grid grid-cols-12 gap-6 my-4 w-full min-h-screen">
       <aside className="col-span-3">
         <div className="fixed w-3/12 px-1 mx-2">
           <ProfileCard />
