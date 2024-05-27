@@ -12,7 +12,7 @@ const authReducer = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    authStart: (state, action) => {
+    authStart: (state) => {
       state.loading = true;
       state.error = false;
     },
@@ -29,7 +29,7 @@ const authReducer = createSlice({
       state.error = true;
       state.errorMessage = action.payload;
     },
-    logOut: (state, action) => {
+    logOut: (state) => {
       localStorage.clear();
       state.loading = false;
       state.error = false;

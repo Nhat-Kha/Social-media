@@ -1,11 +1,6 @@
-import {
-  legacy_createStore as createStore,
-  applyMiddleware,
-  compose,
-} from "redux";
+import { applyMiddleware } from "redux";
 import { configureStore } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
-import { reducers } from "./Reducers";
 import AuthReducer from "./Reducers/AuthReducer";
 import PostReducer from "./Reducers/PostReducer";
 
