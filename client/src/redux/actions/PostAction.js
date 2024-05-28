@@ -9,6 +9,7 @@ export const getTimelinePosts = (id) => async (dispatch) => {
   await dispatch(retreivingStart());
   try {
     const { data } = await PostsApi.getTimelinePosts(id);
+    console.log({ data });
     dispatch(retreivingSuccess(data));
   } catch (error) {
     console.log({ error });

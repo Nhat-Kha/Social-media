@@ -1,5 +1,7 @@
 import * as UserApi from "../../api/UserRequests";
 import {
+  followUsers,
+  unFollowUser,
   updateFail,
   updateStart,
   updateSuccess,
@@ -17,12 +19,14 @@ export const updateUser = (id, formData) => async (dispatch) => {
   }
 };
 
-// export const followUser = (id, data) => async (dispatch) => {
-//   dispatch({ type: "FOLLOW_USER", data: id });
-//   UserApi.followUser(id, data);
-// };
+export const followUser = (id, data) => async (dispatch) => {
+  console.log("id:", id);
+  console.log("data user id:", data);
+  dispatch(followUsers(id));
+  UserApi.followUser(id, data);
+};
 
-// export const unfollowUser = (id, data) => async (dispatch) => {
-//   dispatch({ type: "UNFOLLOW_USER", data: id });
-//   UserApi.unfollowUser(id, data);
-// };
+export const unfollowUser = (id, data) => async (dispatch) => {
+  dispatch(unFollowUser(id));
+  UserApi.unfollowUser(id, data);
+};

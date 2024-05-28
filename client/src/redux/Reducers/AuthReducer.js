@@ -51,6 +51,36 @@ const authReducer = createSlice({
       state.updateLoading = false;
       state.error = true;
     },
+    followUsers: (state, action) => {
+      console.log("data followUser:", action);
+
+      const newData = action.payload;
+      state.authData = {
+        ...state.authData,
+        user: {
+          ...state.authData.user,
+          following: [...state.authData.user.following, newData],
+        },
+      };
+      console.log({ newData });
+    },
+    unFollowUser: (state, action) => {
+      console.log("data unFollowUser:", action.payload);
+
+      const newData = action.payload;
+      state.authData = {
+        ...state.authData,
+        user: {
+          ...state.authData.user,
+          following: [
+            ...state.authData.user.following.filter(
+              (personId) => personId !== newData
+            ),
+          ],
+        },
+      };
+      console.log({ newData });
+    },
   },
 });
 
@@ -62,5 +92,7 @@ export const {
   updateStart,
   updateSuccess,
   updateFail,
+  followUsers,
+  unFollowUser,
 } = authReducer.actions;
 export default authReducer.reducer;

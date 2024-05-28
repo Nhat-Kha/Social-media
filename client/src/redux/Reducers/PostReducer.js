@@ -30,6 +30,7 @@ const postReducer = createSlice({
       state.error = false;
     },
     retreivingSuccess: (state, action) => {
+      console.log({ action });
       state.posts = action.payload;
       state.loading = false;
       state.error = false;
