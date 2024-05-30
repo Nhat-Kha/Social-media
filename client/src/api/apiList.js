@@ -8,6 +8,7 @@ const apiList = {
   uploadPost: `${server}/posts`,
 
   updateUserId: `${server}/user/`,
+  follow: `${server}/user/`,
 
   getPost: `${server}/posts`,
   likePost: `${server}/posts/`,
