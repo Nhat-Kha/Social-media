@@ -3,29 +3,32 @@ import { useDispatch, useSelector } from "react-redux";
 import { getTimelinePosts } from "../../redux/actions/PostAction";
 import Post from "./Post/Post";
 import Skeleten from "../Skeleten/Skeleten";
+import {
+  loadSelector,
+  postSelector,
+  userSelector,
+} from "../../redux/Selector/Selector";
 
 export default function PostSide() {
   const dispatch = useDispatch();
 
-  const { user } = useSelector((state) => state.auth.authData);
-  const { post, loading } = useSelector((state) => ({
-    post: state.post.posts,
-    loading: state.post.loading,
-  }));
+  const user = useSelector(userSelector);
+  const post = useSelector(postSelector);
+  const loading = useSelector(loadSelector);
 
-  // const [load, setLoading] = useState(loading);
-
-  // useEffect(() => {
-  //   setTimeout(() => setLoading(true), 2000);
-  // }, []);
+  const [load, setLoading] = useState(loading);
 
   useEffect(() => {
-    dispatch(getTimelinePosts(user._id));
+    setTimeout(() => setLoading(true), 2000);
+  }, []);
+
+  useEffect(() => {
+    dispatch(getTimelinePosts(user.user._id));
   }, [dispatch, user]);
 
   if (!post || post.length === 0) return "No Posts";
 
-  return loading ? (
+  return !load ? (
     <Skeleten />
   ) : (
     post &&

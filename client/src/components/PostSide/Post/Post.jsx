@@ -3,11 +3,10 @@ import { useSelector } from "react-redux";
 import { likePost } from "../../../api/PostsRequests";
 import apiList from "../../../api/apiList";
 import CommentSection from "../../Comment/CommentSection";
+import { userSelector } from "../../../redux/Selector/Selector";
 
 export default function Post({ data }) {
-  const { user } = useSelector((state) => state.auth.authData);
-
-  console.log({ data });
+  const user = useSelector(userSelector);
 
   const userId = user?._id;
   const initialLikes = data?.likes || [];

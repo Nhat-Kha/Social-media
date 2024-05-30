@@ -17,7 +17,7 @@ export default function ProfileCard() {
   const newPost = posts.filter((post) => post.userId === user._id);
 
   return (
-    <div className="bg-white shadow rounded-lg p-6">
+    <div className="bg-white shadow rounded-lg p-4">
       <div className="flex flex-col gap-1 text-center items-center">
         <img
           className="h-32 w-32 bg-white p-2 rounded-full shadow mb-4"
@@ -44,7 +44,7 @@ export default function ProfileCard() {
             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
             <circle cx="12" cy="10" r="3"></circle>
           </svg>
-          {user.livesin}, {user.country}
+          {user.livesin || "No update"}, {user.country || "No update"}
         </div>
       </div>
       <div className="flex justify-center items-center gap-2 my-3">

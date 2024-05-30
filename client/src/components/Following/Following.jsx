@@ -1,81 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { userSelector } from "../../redux/Selector/Selector";
+import apiList from "../../api/apiList";
+import { followUser, unfollowUser } from "../../redux/actions/UserAction";
+import User from "./User/User";
 
 export default function Following() {
+  const user = useSelector(userSelector);
+
+  const [modal, setModal] = useState(false);
+  const [mainUser, setMainUser] = useState([]);
+
+  useEffect(() => {
+    const user = async () => {
+      try {
+        const res = await fetch(apiList.getUser);
+        if (res.ok) {
+          const data = await res.json();
+
+          setMainUser(data.users);
+        }
+      } catch (error) {
+        console.log({ error });
+      }
+    };
+    user();
+  }, []);
+
+  const newMainUser = mainUser.slice(0, 3);
+
+  console.log("mainUser id:", newMainUser);
+
   return (
-    <div className="bg-white shadow mt-6 rounded-lg p-6">
+    <div className="bg-white shadow mt-4 rounded-lg p-4">
       <h3 className="text-gray-600 text-sm font-semibold mb-4">Following</h3>
-      <ul className="flex items-center justify-center space-x-2">
-        <li className="flex flex-col items-center space-y-2">
-          <a className="block bg-white p-1 rounded-full" href="#!">
-            <img
-              alt=""
-              className="w-16 rounded-full"
-              src="https://images.unsplash.com/photo-1638612913771-8f00622b96fb?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=200&amp;h=200&amp;q=80"
-            />
-          </a>
-
-          <span className="text-xs text-gray-500">Sage</span>
-        </li>
-
-        <li className="flex flex-col items-center space-y-2">
-          <a className="block bg-white p-1 rounded-full" href="#!">
-            <img
-              alt=""
-              className="w-16 rounded-full"
-              src="https://images.unsplash.com/photo-1638649602320-450b717fa622?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=200&amp;h=200&amp;q=80"
-            />
-          </a>
-
-          <span className="text-xs text-gray-500">Jett</span>
-        </li>
-
-        <li className="flex flex-col items-center space-y-2">
-          <a className="block bg-white p-1 rounded-full" href="#!">
-            <img
-              className="w-16 rounded-full"
-              src="https://images.unsplash.com/photo-1638708644743-2502f38000a0?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=200&amp;h=200&amp;q=80"
-              alt=""
-            />
-          </a>
-
-          <span className="text-xs text-gray-500">Sky</span>
-        </li>
-
-        <li className="flex flex-col items-center space-y-2">
-          <a className="block bg-white p-1 rounded-full" href="#!">
-            <img
-              alt=""
-              className="w-16 rounded-full"
-              src="https://images.unsplash.com/photo-1638691899851-0e955bceba1f?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=200&amp;h=200&amp;q=80"
-            />
-          </a>
-
-          <span className="text-xs text-gray-500">Olivia</span>
-        </li>
-
-        <li className="flex flex-col items-center space-y-2">
-          <a className="block bg-white p-1 rounded-full" href="#!">
-            <img
-              alt=""
-              className="w-16 rounded-full"
-              src="https://images.unsplash.com/photo-1638612913771-8f00622b96fb?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=200&amp;h=200&amp;q=80"
-            />
-          </a>
-
-          <span className="text-xs text-gray-500">Julia</span>
-        </li>
-        <li className="flex flex-col items-center space-y-2">
-          <a className="block bg-white p-1 rounded-full" href="#!">
-            <img
-              alt=""
-              className="w-16 rounded-full"
-              src="https://images.unsplash.com/photo-1638649602320-450b717fa622?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=200&amp;h=200&amp;q=80"
-            />
-          </a>
-
-          <span className="text-xs text-gray-500">Hendrick</span>
-        </li>
-      </ul>
+      {newMainUser.length > 0 &&
+        newMainUser.map((use) => {
+          if (use._id !== user._id) {
+            return <User use={use} key={use._id} />;
+          } else {
+            return null;
+          }
+        })}
+      <span className="flex justify-center items-center">Show More</span>
     </div>
   );
 }

@@ -4,13 +4,10 @@ import { useNavigate } from "react-router-dom";
 import apiList from "../../api/apiList";
 
 import Comment from "./Comment";
+import { postSelector } from "../../redux/Selector/Selector";
 
 export default function CommentSection({ postId, user }) {
-  const { post } = useSelector((state) => ({
-    post: state.post.posts,
-  }));
-
-  console.log({ post });
+  const { post } = useSelector(postSelector);
 
   const navigate = useNavigate();
 
@@ -145,8 +142,6 @@ export default function CommentSection({ postId, user }) {
       console.log(error.message);
     }
   };
-
-  const newMainUser = mainUser.filter((user) => user._id === post.userId);
 
   return (
     <>
