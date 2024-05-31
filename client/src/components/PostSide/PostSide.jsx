@@ -28,12 +28,18 @@ export default function PostSide() {
 
   if (!post || post.length === 0) return "No Posts";
 
+  const sortedPosts = post
+    .slice()
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+  // console.log("post:", post);
+
   return !load ? (
     <Skeleten />
   ) : (
-    post &&
-      post.map &&
-      post.map((post) => {
+    sortedPosts &&
+      sortedPosts.map &&
+      sortedPosts.map((post) => {
         return <Post data={post} key={post._id} />;
       })
   );

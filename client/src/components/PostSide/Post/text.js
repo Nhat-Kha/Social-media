@@ -8,19 +8,16 @@ import { userSelector } from "../../../redux/Selector/Selector";
 export default function Post({ data }) {
   const user = useSelector(userSelector);
 
-  const userId = user?.user._id;
+  const userId = user?._id;
   const initialLikes = data?.likes || [];
 
-  const [comments, setComments] = useState([]);
   const [liked, setLiked] = useState(initialLikes.includes(userId));
   const [likes, setLikes] = useState(initialLikes.length);
 
   const [users, setUsers] = useState([]);
 
-  console.log("user:", user);
-
   const handleLike = () => {
-    likePost(data._id, user._id);
+    likePost(data._id, user.user._id);
     setLiked((prev) => !prev);
     liked ? setLikes((prev) => prev - 1) : setLikes((prev) => prev + 1);
   };
@@ -39,21 +36,6 @@ export default function Post({ data }) {
     };
     fecthUser();
   }, []);
-
-  useEffect(() => {
-    const getComments = async () => {
-      try {
-        const res = await fetch(`${apiList.getPostComment}${data._id}`);
-        if (res.ok) {
-          const data = await res.json();
-          setComments(data);
-        }
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
-    getComments();
-  }, [data._id]);
 
   const newData = users.filter((user) => user._id === data.userId);
   const newLikeData = users.filter((u) => data.likes.includes(u._id));
@@ -90,6 +72,12 @@ export default function Post({ data }) {
 
   const convertedPayload = convertPayloadWithTimeSince(data);
 
+  // console.log("data:", data);
+  // console.log("liked:", liked);
+  // console.log("users:", users);
+  // console.log("newData:", newData);
+  // console.log("newLikeData:", newLikeData);
+
   return (
     data && (
       <div className="bg-white shadow rounded-lg mb-6">
@@ -102,7 +90,7 @@ export default function Post({ data }) {
                   alt="User avatar"
                   src={
                     !user.profilePicture
-                      ? "data:image/svg+xml,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg' aria-hidden='true' role='presentation' focusable='false' class='block h-full w-full fill-current'%3E%3Cpath d='m16 .7c-8.437 0-15.3 6.863-15.3 15.3s6.863 15.3 15.3 15.3 15.3-6.863 15.3-15.3-6.863-15.3-15.3-15.3zm0 28c-4.021 0-7.605-1.884-9.933-4.81a12.425 12.425 0 0 1 6.451-4.4 6.507 6.507 0 0 1 -3.018-5.49c0-3.584 2.916-6.5 6.5-6.5s6.5 2.916 6.5 6.5a6.513 6.513 0 0 1 -3.019 5.491 12.42 12.42 0 0 1 6.452 4.4c-2.328 2.925-5.912 4.809-9.933 4.809z'/%3E%3C/svg%3E"
+                      ? "data:image/svg+xml,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg' aria-hidden='true' role='presentation' focusable='false' className='block h-full w-full fill-current'%3E%3Cpath d='m16 .7c-8.437 0-15.3 6.863-15.3 15.3s6.863 15.3 15.3 15.3 15.3-6.863 15.3-15.3-6.863-15.3-15.3-15.3zm0 28c-4.021 0-7.605-1.884-9.933-4.81a12.425 12.425 0 0 1 6.451-4.4 6.507 6.507 0 0 1 -3.018-5.49c0-3.584 2.916-6.5 6.5-6.5s6.5 2.916 6.5 6.5a6.513 6.513 0 0 1 -3.019 5.491 12.42 12.42 0 0 1 6.452 4.4c-2.328 2.925-5.912 4.809-9.933 4.809z'/%3E%3C/svg%3E"
                       : user.profilePicture
                   }
                 />
@@ -124,7 +112,7 @@ export default function Post({ data }) {
               <div className="grid grid-cols-6 col-span-2   gap-2  ">
                 <div className=" overflow-hidden rounded-xl col-span-3 max-h-[14rem]">
                   {data && data.image === "" ? (
-                    <img className="hidden" alt="" />
+                    ""
                   ) : (
                     <img
                       className="h-full w-full object-cover "
@@ -143,7 +131,10 @@ export default function Post({ data }) {
         ))}
         <div className="flex justify-start mb-4 border-t border-gray-100">
           <div className="flex w-full mt-1 pt-2 pl-5">
-            <span className="bg-white transition ease-out duration-300 hover:text-red-500 border w-8 h-8 px-2 pt-2 text-center rounded-full text-gray-400 cursor-pointer mr-2">
+            <span
+              className="bg-white transition ease-out duration-300 hover:text-red-500 border w-8 h-8 px-2 pt-2 
+              text-center rounded-full text-gray-400 cursor-pointer mr-2"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -175,7 +166,10 @@ export default function Post({ data }) {
               ))}
           </div>
           <div className="flex justify-end w-full mt-1 pt-2 pr-5">
-            <span className="transition ease-out duration-300 hover:bg-blue-50 bg-blue-100 w-8 h-8 px-2 py-2 text-center rounded-full text-blue-400 cursor-pointer mr-2">
+            <span
+              className="transition ease-out duration-300 hover:bg-blue-50 bg-blue-100 w-8 h-8 px-2 py-2 text-center 
+              rounded-full text-blue-400 cursor-pointer mr-2"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -193,7 +187,7 @@ export default function Post({ data }) {
             </span>
             <span
               onClick={handleLike}
-              className={`transition ease-out duration-300 hover:bg-gray-50 h-8 px-2 py-2 text-center rounded-full cursor-pointer ${
+              className={`transition ease-out duration-300 hover:bg-red-200 h-8 px-2 py-2 text-center rounded-full cursor-pointer ${
                 liked ? "bg-red-500 text-white" : "bg-gray-100 text-gray-100"
               }`}
             >
@@ -217,10 +211,7 @@ export default function Post({ data }) {
         <div className="flex w-full border-t border-gray-100">
           <div className="mt-3 mx-5 flex flex-row text-xs">
             <div className="flex text-gray-700 font-normal rounded-md mb-2 mr-4 items-center">
-              Comments:
-              <div className="ml-1 text-gray-400 text-ms">
-                {comments.length}
-              </div>
+              Comments:<div className="ml-1 text-gray-400 text-ms"> 30</div>
             </div>
             <div className="flex text-gray-700 font-normal rounded-md mb-2 mr-4 items-center">
               Views: <div className="ml-1 text-gray-400 text-ms"> 60k</div>
@@ -233,7 +224,7 @@ export default function Post({ data }) {
           </div>
         </div>
 
-        <CommentSection postId={data._id} user={user} comments={comments} />
+        <CommentSection postId={data._id} user={user} />
       </div>
     )
   );

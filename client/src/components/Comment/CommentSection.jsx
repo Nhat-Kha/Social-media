@@ -49,6 +49,8 @@ export default function CommentSection({ postId, user }) {
     getComments();
   }, [postId]);
 
+  console.log("user:", user);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (comment.length > 200) {

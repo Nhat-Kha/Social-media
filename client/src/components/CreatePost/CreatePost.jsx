@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { uploadImage, uploadPost } from "../../redux/actions/UploadAction";
+import { apiUploadImages } from "../../api/UploadImage";
 
 export default function CreatePost() {
   const dispatch = useDispatch();
@@ -33,14 +34,22 @@ export default function CreatePost() {
 
     // if there is an image with post
     if (image) {
+      let images = "";
       const data = new FormData();
       const fileName = Date.now() + image.name;
+
       data.append("name", fileName);
       data.append("file", image);
-      newPost.image = fileName;
-      console.log(newPost);
+      data.append("upload_preset", "social");
+      data.append("folder", "social-media");
+
+      let response = await apiUploadImages(data);
+      if (response.status === 200) images = response.data?.secure_url;
+
+      newPost.image = images;
+      console.log(images);
       try {
-        dispatch(uploadImage(data));
+        dispatch(uploadImage(images));
       } catch (err) {
         console.log(err);
       }
@@ -67,7 +76,11 @@ export default function CreatePost() {
         />
         <footer className="flex justify-between mt-2">
           <div className="flex gap-2">
-            <span className="flex items-center transition ease-out duration-300 hover:bg-blue-500 hover:text-white bg-blue-100 w-8 h-8 px-2 rounded-full text-blue-400 cursor-pointer">
+            <span
+              onClick={() => imageRef.current.click()}
+              className="flex items-center transition ease-out duration-300 hover:bg-blue-500 hover:text-white 
+            bg-blue-100 w-8 h-8 px-2 rounded-full text-blue-400 cursor-pointer"
+            >
               <svg
                 viewBox="0 0 24 24"
                 width="24"
@@ -117,6 +130,7 @@ export default function CreatePost() {
               </svg>
             </span>
           </div>
+
           {textSearch === "" ? (
             <button
               className="flex items-center py-2 px-4 rounded-lg text-sm bg-blue-300 text-slate-100 hover:bg-blue-500 
@@ -164,7 +178,19 @@ export default function CreatePost() {
               </svg>
             </button>
           )}
+          <div style={{ display: "none" }}>
+            <input type="file" ref={imageRef} onChange={onImageChange} />
+          </div>
         </footer>
+        {image && (
+          <div className="w-1/4">
+            <img
+              src={URL.createObjectURL(image)}
+              alt="preview"
+              className="rounded-lg"
+            />
+          </div>
+        )}
       </form>
     </>
   );
