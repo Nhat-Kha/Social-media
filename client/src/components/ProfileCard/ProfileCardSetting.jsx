@@ -14,6 +14,9 @@ export default function ProfileCardSetting() {
   const [modalOpened, setModalOpened] = useState(false);
   const [profileUser, setProfileUser] = useState({});
   const { user } = useSelector((state) => state.auth.authData);
+  const { posts } = useSelector((state) => ({
+    posts: state.post.posts,
+  }));
 
   useEffect(() => {
     const fetchProfileUser = async () => {
@@ -29,11 +32,23 @@ export default function ProfileCardSetting() {
     fetchProfileUser();
   }, [profileUserId, user]);
 
+  if (!posts || posts.length === 0) return "No Posts";
+  const newPost = posts.filter((post) => post.userId === user._id);
+
   return (
     <div className="bg-white shadow rounded-lg p-6">
       <div className="flex flex-col gap-1 text-center items-center">
-        <h4>Profile Info</h4>
-        <p className="font-semibold">{user.username}</p>
+        <h4 className="text-gray-600 text-sm font-semibold">Profile Info</h4>
+        <img
+          className="h-32 w-32 bg-white p-2 rounded-full shadow mb-4"
+          src={
+            !user.profilePicture
+              ? "data:image/svg+xml,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg' aria-hidden='true' role='presentation' focusable='false' className='block h-full w-full fill-current'%3E%3Cpath d='m16 .7c-8.437 0-15.3 6.863-15.3 15.3s6.863 15.3 15.3 15.3 15.3-6.863 15.3-15.3-6.863-15.3-15.3-15.3zm0 28c-4.021 0-7.605-1.884-9.933-4.81a12.425 12.425 0 0 1 6.451-4.4 6.507 6.507 0 0 1 -3.018-5.49c0-3.584 2.916-6.5 6.5-6.5s6.5 2.916 6.5 6.5a6.513 6.513 0 0 1 -3.019 5.491 12.42 12.42 0 0 1 6.452 4.4c-2.328 2.925-5.912 4.809-9.933 4.809z'/%3E%3C/svg%3E"
+              : user.profilePicture
+          }
+          alt=""
+        />
+        <p className="font-semibold cursor-default">{user.username}</p>
         {user._id === profileUserId ? (
           <div>
             <button
@@ -43,7 +58,7 @@ export default function ProfileCardSetting() {
               type="button"
               onClick={() => setModalOpened(true)}
             >
-              More
+              Edit profile
             </button>
             <ProfileModal
               modalOpened={modalOpened}
@@ -57,16 +72,16 @@ export default function ProfileCardSetting() {
       </div>
       <div className="flex justify-center items-center gap-2 my-3">
         <div className="font-semibold text-center mx-4">
-          <p className="text-black">102</p>
-          <span className="text-gray-400">Posts</span>
+          <p className="text-black cursor-default">{newPost.length}</p>
+          <span className="text-gray-400 cursor-default">Posts</span>
         </div>
         <div className="font-semibold text-center mx-4">
-          <p className="text-black">{user.followers.length}</p>
-          <span className="text-gray-400">Followers</span>
+          <p className="text-black cursor-default">{user.followers.length}</p>
+          <span className="text-gray-400 cursor-default">Followers</span>
         </div>
         <div className="font-semibold text-center mx-4">
-          <p className="text-black">{user.following.length}</p>
-          <span className="text-gray-400">Folowing</span>
+          <p className="text-black cursor-default">{user.following.length}</p>
+          <span className="text-gray-400 cursor-default">Folowing</span>
         </div>
       </div>
     </div>

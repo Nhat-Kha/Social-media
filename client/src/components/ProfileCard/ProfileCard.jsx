@@ -15,6 +15,7 @@ export default function ProfileCard() {
 
   if (!posts || posts.length === 0) return "No Posts";
   const newPost = posts.filter((post) => post.userId === user._id);
+  
 
   return (
     <div className="bg-white shadow rounded-lg p-4">
