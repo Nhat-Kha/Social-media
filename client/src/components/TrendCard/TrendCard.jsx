@@ -7,7 +7,7 @@ export default function TrendCard() {
       <h3 className="">Trends for your</h3>
       {TrendData.map((data, id) => {
         return (
-          <div className="flex flex-col gap-[0.5rem]" key={id}>
+          <div className="flex flex-col gap-[0.5rem] cursor-pointer" key={id}>
             <span className="font-bold">#{data.name}</span>
             <span className="text-[13px]">{data.shares}K shares</span>
           </div>
