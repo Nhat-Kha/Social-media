@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Loading from "./components/container/LoadingPage";
 import { useEffect, useState } from "react";
 import Profile from "./pages/Profile/Profile";
+import Chat from "./pages/Chat/Chat";
 
 export default function App() {
   const user = useSelector((state) => state.auth.authData);
@@ -41,6 +42,11 @@ export default function App() {
           exact
           path="/auth"
           element={user ? <Navigate to="../home" /> : <Auth />}
+        />
+        <Route
+          exact
+          path="/chat"
+          element={user ? <Chat /> : <Navigate to="../home" />}
         />
         <Route
           exact
