@@ -36,16 +36,16 @@ export default function Chat() {
   }, [user._id]);
 
   // connect
-  useEffect(() => {
-    const url = "http://localhost:3300";
-    console.log(`Connecting to WebSocket server at ${url}`);
-    socket.current = io(url);
-    console.log(`WebSocket connected: ${socket.current}`);
-    socket.current.emit("new-user-add", user._id);
-    socket.current.on("get-users", (user) => {
-      setOnlineUsers(user);
-    });
-  }, [user._id]);
+  // useEffect(() => {
+  //   const url = "http://localhost:3300";
+  //   console.log(`Connecting to WebSocket server at ${url}`);
+  //   socket.current = io(url);
+  //   console.log(`WebSocket connected: ${socket.current}`);
+  //   socket.current.emit("new-user-add", user._id);
+  //   socket.current.on("get-users", (user) => {
+  //     setOnlineUsers(user);
+  //   });
+  // }, [user._id]);
 
   useEffect(() => {
     const url = "https://social-media-r5x9.onrender.com";
