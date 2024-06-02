@@ -19,7 +19,7 @@ export default function App() {
   // }
   return (
     <div
-      className="App bg-gray-100 pt-20"
+      className="App bg-gray-50 pt-20 min-h-screen"
       style={{
         height:
           window.location.href === "http://localhost:3000/chat"
