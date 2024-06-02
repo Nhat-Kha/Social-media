@@ -17,6 +17,14 @@ const apiList = {
   create: `${server}/comment/create`,
   getPostComment: `${server}/comment/getPostComments/`,
   likeComment: `${server}/comment/likeComment/`,
+
+  // CHAT
+  createChat: `${server}/chat/`,
+  getChat: `${server}/chat/`,
+  findChat: `${server}/chat/find/`,
+
+  // MESSAGES
+  getMessage: `${server}/message/`,
 };
 
 export default apiList;
