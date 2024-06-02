@@ -5,6 +5,7 @@ import { userSelector } from "../../redux/Selector/Selector";
 import { userChats } from "../../api/ChatRequests";
 import ChatConversation from "../../components/Chat/Conversation/ChatConversation";
 import ChatBox from "../../components/Chat/ChatBox";
+import apiList from "../../api/apiList";
 
 export default function Chat() {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ export default function Chat() {
   console.log("user:", user._id);
 
   const [chats, setChats] = useState([]);
+  const [users, setUsers] = useState([]);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [sendMessage, setSendMessage] = useState(null);
@@ -60,6 +62,24 @@ export default function Chat() {
     });
   }, []);
 
+  useEffect(() => {
+    const fecthUser = async () => {
+      try {
+        const res = await fetch(apiList.getUser);
+        if (res.ok) {
+          const data = await res.json();
+          setUsers(data.users);
+        }
+      } catch (error) {
+        console.log({ error });
+      }
+    };
+    fecthUser();
+  }, []);
+
+  const newData = users.filter((u) => user.followers.includes(u._id));
+  console.log("newData", newData);
+
   const checkOnlineStatus = (chat) => {
     console.log("chat:", chat);
     const chatMember = chat.members.find((member) => member !== user._id);
@@ -75,7 +95,7 @@ export default function Chat() {
       <div className="h-full w-full grid grid-cols-12">
         {/* LEFT SIDE */}
 
-        <div className="flex-none col-span-3 fixed flex-col py-8 pl-6 pr-2 h-full w-64 bg-white flex-shrink-0">
+        <div className="flex-none col-span-3 fixed flex-col py-8 pl-6 pr-2 max-h-[41rem] w-64 bg-white flex-shrink-0 overflow-y-auto">
           <div className="flex flex-row items-center justify-center h-12 w-full">
             <div className="flex items-center justify-center rounded-2xl text-indigo-700 bg-indigo-100 h-10 w-10">
               <svg
@@ -140,26 +160,45 @@ export default function Chat() {
                 />
               </div>
             ))}
-            <div className="flex flex-row items-center justify-between text-xs mt-6">
-              <span className="font-bold">Archivied</span>
-              <span className="flex items-center justify-center bg-gray-300 h-4 w-4 rounded-full">
-                7
-              </span>
-            </div>
-            <div className="flex flex-col space-y-1 mt-4 -mx-2">
-              <button className="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2">
-                <div className="flex items-center justify-center h-8 w-8 bg-indigo-200 rounded-full">
-                  H
+            {newData.length > 0 && (
+              <>
+                <div className="flex flex-row items-center justify-between text-xs mt-6">
+                  <span className="font-bold">Archivied</span>
+                  <span className="flex items-center justify-center bg-gray-300 h-4 w-4 rounded-full">
+                    {newData.length}
+                  </span>
                 </div>
-                <div className="ml-2 text-sm font-semibold">Henry Boyd</div>
-              </button>
-            </div>
+                <div className="overflow-yauto">
+                  {newData.map((use) => (
+                    <div
+                      className="flex flex-col space-y-1 mt-4 -mx-2 "
+                      key={use._id}
+                    >
+                      <button className="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2">
+                        <img
+                          src={
+                            !use.profilePicture
+                              ? "data:image/svg+xml,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg' aria-hidden='true' role='presentation' focusable='false' className='block h-full w-full fill-current'%3E%3Cpath d='m16 .7c-8.437 0-15.3 6.863-15.3 15.3s6.863 15.3 15.3 15.3 15.3-6.863 15.3-15.3-6.863-15.3-15.3-15.3zm0 28c-4.021 0-7.605-1.884-9.933-4.81a12.425 12.425 0 0 1 6.451-4.4 6.507 6.507 0 0 1 -3.018-5.49c0-3.584 2.916-6.5 6.5-6.5s6.5 2.916 6.5 6.5a6.513 6.513 0 0 1 -3.019 5.491 12.42 12.42 0 0 1 6.452 4.4c-2.328 2.925-5.912 4.809-9.933 4.809z'/%3E%3C/svg%3E"
+                              : use.profilePicture
+                          }
+                          alt="Avatar"
+                          className="flex items-center justify-center h-8 w-8 bg-indigo-200 rounded-full"
+                        />
+                        <div className="ml-2 text-sm font-semibold">
+                          {use.username}
+                        </div>
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         </div>
 
         {/* RIGHT SIDE */}
 
-        <div class="flex-1 col-start-3 col-end-13 flex-col h-[41rem] w-full  pt-4 pl-4 pr-4">
+        <div className="flex-1 col-start-3 col-end-13 flex-col h-[41rem] w-full  pt-4 pl-4 pr-4">
           <ChatBox
             user={user}
             chat={currentChat}

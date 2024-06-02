@@ -21,9 +21,6 @@ export default function ChatConversation({ data, currentUser, online }) {
     getUserData();
   }, [currentUser, data, dispatch]);
 
-  console.log("userData:", userData);
-  console.log("online:", online);
-
   return (
     <div>
       <div className="flex flex-col space-y-1 mt-4 -mx-2 h-48 overflow-y-auto">
@@ -33,11 +30,10 @@ export default function ChatConversation({ data, currentUser, online }) {
               src={
                 userData?.profilePicture
                   ? userData?.profilePicture
-                  : "defaultProfile.png"
+                  : "data:image/svg+xml,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg' aria-hidden='true' role='presentation' focusable='false' className='block h-full w-full fill-current'%3E%3Cpath d='m16 .7c-8.437 0-15.3 6.863-15.3 15.3s6.863 15.3 15.3 15.3 15.3-6.863 15.3-15.3-6.863-15.3-15.3-15.3zm0 28c-4.021 0-7.605-1.884-9.933-4.81a12.425 12.425 0 0 1 6.451-4.4 6.507 6.507 0 0 1 -3.018-5.49c0-3.584 2.916-6.5 6.5-6.5s6.5 2.916 6.5 6.5a6.513 6.513 0 0 1 -3.019 5.491 12.42 12.42 0 0 1 6.452 4.4c-2.328 2.925-5.912 4.809-9.933 4.809z'/%3E%3C/svg%3E"
               }
               alt="Profile"
-              className="followerImage"
-              style={{ width: "50px", height: "50px" }}
+              className="flex items-center justify-center h-8 w-8 bg-indigo-200 rounded-full"
             />
           </div>
           <div>
@@ -46,7 +42,13 @@ export default function ChatConversation({ data, currentUser, online }) {
             </div>
             <div className="ml-2 text-sm font-semibold">
               {online && <div>online</div>}
-              <span style={{ color: online ? "#51e200" : "" }}>
+              <span
+                style={{
+                  color: online
+                    ? "#51e200"
+                    : "rgb(156 163 175 / var(--tw-text-opacity))",
+                }}
+              >
                 {online ? "Online" : "Offline"}
               </span>
             </div>
