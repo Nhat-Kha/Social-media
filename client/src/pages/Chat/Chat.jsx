@@ -88,7 +88,7 @@ export default function Chat() {
     fecthUser();
   }, []);
 
-  const newData = users.filter((u) => user.followers.includes(u._id));
+  const newData = users.filter((u) => user.following.includes(u._id));
   console.log("newData", newData);
 
   const checkOnlineStatus = (chat) => {
