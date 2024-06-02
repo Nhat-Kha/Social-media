@@ -1,4 +1,4 @@
-export const server = "http://localhost:3300";
+export const server = "https://social-media-r5x9.onrender.com";
 
 const apiList = {
   login: `${server}/auth/signin`,
