@@ -3,6 +3,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
 import AuthReducer from "./Reducers/AuthReducer";
 import PostReducer from "./Reducers/PostReducer";
+import chatReducer from "./Reducers/ChatReducer";
 
 const saveToLocalStorage = (store) => {
   try {
@@ -30,6 +31,7 @@ const store = configureStore({
   reducer: {
     auth: AuthReducer,
     post: PostReducer,
+    chat: chatReducer,
   },
   preloadedState: persistedState,
   middleware: (getDefaultMiddleware) =>
