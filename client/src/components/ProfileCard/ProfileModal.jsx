@@ -89,7 +89,6 @@ export default function ProfileModal({ modalOpened, setModalOpened, data }) {
           Your Info{" "}
           <span className="font-semibold uppercase">{user.username}</span>
         </h3>
-        3
         <form class="p-4 md:p-5">
           <div class="grid gap-4 mb-4 grid-cols-2">
             <div class="col-span-2 sm:col-span-1">
@@ -413,8 +412,8 @@ export default function ProfileModal({ modalOpened, setModalOpened, data }) {
 //         </div>
 
 //         <button
-//           className="middle none center mr-4 rounded-lg bg-blue-500 py-3 px-6 font-sans text-xs font-bold uppercase 
-//           text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] 
+//           className="middle none center mr-4 rounded-lg bg-blue-500 py-3 px-6 font-sans text-xs font-bold uppercase
+//           text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85]
 //           focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
 //           type="submit"
 //         >
