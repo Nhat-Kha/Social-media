@@ -1,4 +1,5 @@
 export const server = "https://social-media-r5x9.onrender.com";
+// export const server = "http://localhost:3300";
 
 const apiList = {
   login: `${server}/auth/signin`,
@@ -10,7 +11,8 @@ const apiList = {
   updateUserId: `${server}/user/`,
   follow: `${server}/user/`,
 
-  getPost: `${server}/posts`,
+  getAllPost: `${server}/posts/getAll`,
+  getPost: `${server}/posts/get`,
   likePost: `${server}/posts/`,
 
   // COMMENT

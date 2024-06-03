@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
 import { userSelector } from "../../redux/Selector/Selector";
-import { userChats } from "../../api/ChatRequests";
+import { createChat, userChats } from "../../api/ChatRequests";
 import ChatConversation from "../../components/Chat/Conversation/ChatConversation";
 import ChatBox from "../../components/Chat/ChatBox";
 import apiList from "../../api/apiList";
@@ -89,14 +89,69 @@ export default function Chat() {
   }, []);
 
   const newData = users.filter((u) => user.following.includes(u._id));
-  console.log("newData", newData);
+  // console.log("newData", newData);
+
+  console.log("chats:", chats);
+
+  const handleCreateChat = async (receiverId) => {
+    try {
+      console.log("chats:", chats);
+
+      if (!Array.isArray(chats)) {
+        console.error("chats is not an array:", chats);
+        return;
+      }
+
+      const existingChat = chats.find(
+        (chat) =>
+          chat.members.includes(user._id) && chat.members.includes(receiverId)
+      );
+
+      if (existingChat) {
+        console.log("Chat already exists:", existingChat);
+        // If chat exists, set it as the current chat
+        setCurrentChat(existingChat);
+      } else {
+        const res = await fetch(apiList.createChat, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            senderId: user._id,
+            receiverId: receiverId,
+          }),
+        });
+
+        // console.log("Response status:", res.status);
+        const responseText = await res.text();
+        // console.log("Response text:", responseText);
+
+        if (!res.ok) {
+          throw new Error(`Error creating chat: ${res.statusText}`);
+        }
+
+        const newChat = JSON.parse(responseText);
+        setChats((prev) => [...prev, newChat]);
+        setCurrentChat(newChat);
+
+        console.log("senderId:", user._id);
+        console.log("receiverId:", receiverId);
+        console.log("data:", res);
+      }
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+
+  // useEffect(() => {}, []);
 
   const checkOnlineStatus = (chat) => {
-    console.log("chat:", chat);
+    // console.log("chat:", chat);
     const chatMember = chat.members.find((member) => member !== user._id);
     const online = onlineUsers.find((user) => user.userId === chatMember);
 
-    console.log("chatMember:", chatMember);
+    // console.log("chatMember:", chatMember);
     // console.log("user:", user._id);
     return online ? true : false;
   };
@@ -106,7 +161,7 @@ export default function Chat() {
       <div className="h-full w-full grid grid-cols-12">
         {/* LEFT SIDE */}
 
-        <div className="flex-none col-span-3 fixed flex-col py-8 pl-6 pr-2 max-h-[41rem] w-64 bg-white flex-shrink-0 overflow-y-auto">
+        <div className="flex-none col-span-3 fixed flex-col py-4 pl-4 pr-2 max-h-[41rem] w-64 bg-white flex-shrink-0 overflow-y-auto">
           <div className="flex flex-row items-center justify-center h-12 w-full">
             <div className="flex items-center justify-center rounded-2xl text-indigo-700 bg-indigo-100 h-10 w-10">
               <svg
@@ -150,27 +205,31 @@ export default function Chat() {
             </div>
           </div>
           <div className="flex flex-col mt-8">
-            <div className="flex flex-row items-center justify-between text-xs">
-              <span className="font-bold">Active Conversations</span>
-              <span className="flex items-center justify-center bg-gray-300 h-4 w-4 rounded-full">
-                4
-              </span>
-            </div>
-            {/* show member chat */}
-            {chats.map((chat, index) => (
-              <div
-                key={index}
-                onClick={() => {
-                  setCurrentChat(chat);
-                }}
-              >
-                <ChatConversation
-                  data={chat}
-                  currentUser={user._id}
-                  online={checkOnlineStatus(chat)}
-                />
-              </div>
-            ))}
+            {chats.length > 0 && (
+              <>
+                <div className="flex flex-row items-center justify-between text-xs">
+                  <span className="font-bold">Active Conversations</span>
+                  <span className="flex items-center justify-center bg-gray-300 h-4 w-4 rounded-full">
+                    {chats.length}
+                  </span>
+                </div>
+                {/* show member chat */}
+                {chats.map((chat, index) => (
+                  <div
+                    key={index}
+                    onClick={() => {
+                      setCurrentChat(chat);
+                    }}
+                  >
+                    <ChatConversation
+                      data={chat}
+                      currentUser={user._id}
+                      online={checkOnlineStatus(chat)}
+                    />
+                  </div>
+                ))}
+              </>
+            )}
             {newData.length > 0 && (
               <>
                 <div className="flex flex-row items-center justify-between text-xs mt-6">
@@ -185,7 +244,10 @@ export default function Chat() {
                       className="flex flex-col space-y-1 mt-4 -mx-2 "
                       key={use._id}
                     >
-                      <button className="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2">
+                      <button
+                        onClick={() => handleCreateChat(use._id)}
+                        className="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2"
+                      >
                         <img
                           src={
                             !use.profilePicture
