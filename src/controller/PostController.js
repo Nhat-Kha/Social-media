@@ -16,9 +16,8 @@ const createPost = async (req, res) => {
 const getPost = async (req, res) => {
   const { id } = req.params;
   try {
-    if (id === true) {
+    if (id) {
       const post = await PostModel.findById(id);
-      console.log({ id });
       res.status(200).json(post);
     } else {
       res.status(200).json("Not found post!");
@@ -27,6 +26,53 @@ const getPost = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
+const getAllPost = async (req, res) => {
+  console.log("query:", req.query.searchTerm);
+
+  try {
+    const select = "_id userId desc likes image";
+    const populate = {
+      path: "userId",
+      select:
+        "_id username firstname lastname isAdmin profilePicture coverPicture about livesin worksAt country relationship followers following",
+    };
+
+    let posts = await PostModel.find(
+      {
+        ...(req.query.searchTerm && {
+          $or: [{ desc: { $regex: req.query.searchTerm, $options: "i" } }],
+        }),
+      },
+      select
+    ).populate(populate);
+
+    let users = await UserModel.find({
+      ...(req.query.searchTerm && {
+        $or: [{ username: { $regex: req.query.searchTerm, $options: "i" } }],
+      }),
+    });
+
+    console.log("posts", posts);
+    console.log("user", users);
+
+    posts = posts.map((post) => {
+      const { ...otherDetails } = post._doc;
+      return otherDetails;
+    });
+
+    users = users.map((user) => {
+      const { ...otherDetails } = user._doc;
+      return otherDetails;
+    });
+
+    res.status(200).json({ message: "Show all posts", posts, users });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const searchPost = async () => {};
 
 const updatePost = async (req, res) => {
   const postId = req.params.id;
@@ -120,6 +166,7 @@ const getTimelinePosts = async (req, res) => {
 module.exports = {
   createPost,
   getPost,
+  getAllPost,
   updatePost,
   deletePost,
   likePost,

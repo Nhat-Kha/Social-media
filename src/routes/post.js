@@ -4,7 +4,8 @@ const postCtrl = require("../controller/PostController");
 const router = express.Router();
 
 router.post("/", postCtrl.createPost);
-router.get("/:id", postCtrl.getPost);
+router.get("/get/:id", postCtrl.getPost);
+router.get("/getAll", postCtrl.getAllPost);
 router.put("/:id", postCtrl.updatePost);
 router.delete("/:id", postCtrl.deletePost);
 router.put("/:id/like", postCtrl.likePost);
